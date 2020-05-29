@@ -13,4 +13,23 @@ class Screening
         @time = options['time'].to_i
         @capacity = options['capacity'].to_i
     end
+
+    def save()
+        sql = "INSERT INTO screenings (film_id, time, capacity) VALUES ($1, $2, $3) RETURNING screenings.id"
+        values = [@film_id, @time, @capacity]
+        returned_id = SqlRunner.run(sql, values)[0]['id'].to_i
+        @id = returned_id
+    end
+
+    def self.delete_all()
+        sql = 'DELETE FROM screenings;'
+        SqlRunner.run(sql)
+    end
+
+    def self.all()
+        sql = 'SELECT * FROM screenings;'
+        returned = SqlRunner.run(sql)
+        returned_as_arr_of_objects = returned.map{ |screening_hash| Screening.new(screening_hash) }
+        return returned_as_arr_of_objects
+    end
 end
