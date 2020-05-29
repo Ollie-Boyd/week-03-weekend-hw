@@ -1,3 +1,8 @@
+require_relative('./film')
+require_relative('./screening')
+require_relative('./sql_runner')
+require_relative('./user')
+
 class Ticket
     attr_reader :id, :user_id, :screening_id
 

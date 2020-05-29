@@ -1,3 +1,8 @@
+require_relative('./sql_runner')
+require_relative('./ticket')
+require_relative('./screening')
+require_relative('./film')
+
 class User
     attr_reader :id
     attr_accessor :name, :funds
