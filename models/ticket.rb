@@ -18,6 +18,22 @@ class Ticket
         returned_id = SqlRunner.run(sql, values)[0]['id'].to_i
         @id = returned_id
     end
+
+    def screening()
+        sql = ""
+        values = []
+        screening = SqlRunner.run(sql, values)[0]
+        return Screening.new(screening)
+    end
+
+
+
+
+
+
+
+
+
     
     def self.delete_all()
         sql = 'DELETE FROM tickets;'

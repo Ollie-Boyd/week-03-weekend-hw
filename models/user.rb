@@ -7,7 +7,7 @@ class User
     attr_reader :id
     attr_accessor :name, :funds
 
-    def initalize(options)
+    def initialize( options )
         @id = options['id'].to_i if options['id']
         @name = options['name']
         @funds = options['funds'].to_i

@@ -1,9 +1,11 @@
+require('pg')
+
 require_relative('./film')
 require_relative('./ticket')
 require_relative('./screening')
 require_relative('./user')
 
-require('pg')
+
 
 
 class SqlRunner
