@@ -5,6 +5,7 @@ require_relative('./models/ticket')
 require_relative('./models/screening')
 require_relative('./models/film')
 require_relative('./models/user')
+require_relative('./models/reception')
 
 User.delete_all()
 Screening.delete_all()
@@ -59,6 +60,7 @@ ticket_caitlin_girlhood_1900 = Ticket.new({'user_id' => user_caitlin.id, 'screen
 ticket_miranda_lion_1530 = Ticket.new({'user_id' => user_miranda.id, 'screening_id' => screening_lion_1530.id})
 ticket_dan_trainspotting_1300 = Ticket.new({'user_id' => user_dan.id, 'screening_id' => screening_trainspotting_1300.id})
 ticket_caitlin_trainspotting_1200 = Ticket.new({'user_id' => user_caitlin.id, 'screening_id' => screening_trainspotting_1200.id})
+ticket_naomi_trainspotting_1200 = Ticket.new({'user_id' => user_naomi.id, 'screening_id' => screening_trainspotting_1200.id})
 
 ticket_ollie_lion_1530.save()
 ticket_ollie_lion_1530.save()
@@ -67,7 +69,9 @@ ticket_caitlin_girlhood_1900.save()
 ticket_miranda_lion_1530.save()
 ticket_dan_trainspotting_1300.save()
 ticket_caitlin_trainspotting_1200.save()
+ticket_naomi_trainspotting_1200.save()
 
-p screening_mud_1400.tickets()
+reception = Reception.new(1000)
 
+reception.print_screenings_to_console()
 nil

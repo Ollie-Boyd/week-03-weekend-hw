@@ -57,6 +57,10 @@ class Screening
         ticket_objects_arr = returned_tickets.map{ |ticket_hash| Ticket.new(ticket_hash) }
     end
 
+    def tickets_sold()
+        return tickets.count
+    end
+
     def self.delete_all()
         sql = "DELETE FROM screenings;"
         SqlRunner.run(sql)
@@ -75,4 +79,6 @@ class Screening
         returned_screening = SqlRunner.run(sql, values)[0]
         return Screening.new(returned_screening)
     end
+
+   
 end

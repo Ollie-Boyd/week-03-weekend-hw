@@ -20,6 +20,11 @@ class User
         @id = returned_id
     end
 
+    def reduce_wallet_balance(amount)
+        @funds -= amount
+        self.update()
+    end
+
     def update
         sql = "
             UPDATE users
@@ -61,7 +66,9 @@ class User
         return film_objects_arr = films_arr.map{ |film_hash| Film.new(film_hash)}
     end
 
-
+    def number_of_tickets_bought()
+        tickets.count()
+    end
 
     def self.delete_all()
         sql = 'DELETE FROM users;'
@@ -86,4 +93,6 @@ class User
         returned_user = SqlRunner.run(sql, values)[0]
         return User.new(returned_user)
     end
+
+    
 end

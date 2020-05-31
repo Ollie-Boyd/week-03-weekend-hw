@@ -60,8 +60,11 @@ class Film
         screenings_arr = SqlRunner.run(sql, values)
         screening_objects_arr = screenings_arr.map{ |screening_hash| Screening.new(screening_hash) }
         return screening_objects_arr
+    end
 
-        
+    def most_popular_screening()
+        best_seller = screenings.max_by{ |screening| screening.tickets_sold()}
+        return best_seller
     end
 
     def self.delete_all()
@@ -87,6 +90,6 @@ class Film
         returned_film = SqlRunner.run(sql, values)[0]
         return Film.new(returned_film)
     end
-
+        
 
 end
