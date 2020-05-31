@@ -20,13 +20,28 @@ class Ticket
     end
 
     def screening()
-        sql = ""
-        values = []
+        sql = "SELECT screenings.* FROM screenings WHERE screenings.id = $1;"
+        values = [@screening_id]
         screening = SqlRunner.run(sql, values)[0]
         return Screening.new(screening)
     end
 
+    def user()
+        sql = "SELECT users.* FROM users WHERE users.id = $1;"
+        values = [@user_id]
+        user = SqlRunner.run(sql, values)[0]
+        return User.new(user)
+    end
 
+    def film()
+        sql = "
+            SELECT films.* FROM films
+            INNER JOIN screenings ON screenings.film_id = films.id
+            WHERE screenings.id = $1;"
+        values = [@screening_id]
+        film = SqlRunner.run(sql, values)[0]
+        return Film.new(film)
+    end
 
 
 
@@ -45,6 +60,13 @@ class Ticket
         returned = SqlRunner.run(sql)
         returned_as_arr_of_objects = returned.map{ |ticket_hash| Ticket.new(ticket_hash) }
         return returned_as_arr_of_objects
+    end
+
+    def self.find_by_id(id)
+        sql = "SELECT * FROM tickets WHERE id = $1"
+        values = [id]
+        returned_ticket = SqlRunner.run(sql, values)[0]
+        return Ticket.new(returned_ticket)
     end
 
 end

@@ -68,4 +68,6 @@ ticket_miranda_lion_1530.save()
 ticket_dan_trainspotting_1300.save()
 ticket_caitlin_trainspotting_1200.save()
 
+p screening_mud_1400.tickets()
+
 nil

@@ -20,6 +20,49 @@ class User
         @id = returned_id
     end
 
+    def update
+        sql = "
+            UPDATE users
+            SET name = $1, funds = $2
+            WHERE id = $3"
+        values = [@name, @funds, @id]
+        SqlRunner.run(sql, values)
+    end
+
+    def tickets()
+        sql = "
+            SELECT tickets.* FROM tickets
+            WHERE tickets.user_id = $1;"
+        values = [@id]
+        tickets_arr = SqlRunner.run(sql, values)
+        ticket_objects_arr = tickets_arr.map{ |ticket_hash| Ticket.new(ticket_hash)}
+
+    end
+
+    def screenings()
+        sql = "
+            SELECT screenings.* FROM screenings
+            INNER JOIN tickets ON tickets.screening_id = screenings.id
+            WHERE tickets.user_id = $1;"
+        values = [@id]
+        screenings_arr = SqlRunner.run(sql, values)
+        screening_objects_arr = screenings_arr.map{ |screening_hash| Screening.new(screening_hash)}
+    end
+
+    def films()
+        sql = "
+            SELECT DISTINCT films.* FROM films
+            INNER JOIN screenings ON screenings.film_id = films.id
+            INNER JOIN tickets ON tickets.screening_id = screenings.id
+            WHERE tickets.user_id = $1;
+        "
+        values = [@id]
+        films_arr = SqlRunner.run(sql, values)
+        return film_objects_arr = films_arr.map{ |film_hash| Film.new(film_hash)}
+    end
+
+
+
     def self.delete_all()
         sql = 'DELETE FROM users;'
         SqlRunner.run(sql)
@@ -35,5 +78,12 @@ class User
         returned = SqlRunner.run(sql)
         returned_as_arr_of_objects = returned.map{ |user_hash| User.new(user_hash) }
         return returned_as_arr_of_objects
+    end
+
+    def self.find_by_id(id)
+        sql = "SELECT * FROM user WHERE id = $1"
+        values = [id]
+        returned_user = SqlRunner.run(sql, values)[0]
+        return User.new(returned_user)
     end
 end
