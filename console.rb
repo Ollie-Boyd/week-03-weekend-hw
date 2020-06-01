@@ -74,4 +74,6 @@ ticket_naomi_trainspotting_1200.save()
 reception = Reception.new(1000)
 
 reception.print_screenings_to_console()
+
+p User.all()
 nil

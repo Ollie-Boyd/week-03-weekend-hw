@@ -43,12 +43,6 @@ class Ticket
         return Film.new(film)
     end
 
-
-
-
-
-
-
     
     def self.delete_all()
         sql = 'DELETE FROM tickets;'
@@ -58,7 +52,7 @@ class Ticket
     def self.all()
         sql = 'SELECT * FROM tickets;'
         returned = SqlRunner.run(sql)
-        returned_as_arr_of_objects = returned.map{ |ticket_hash| Ticket.new(ticket_hash) }
+        returned_as_arr_of_objects = Ticket.map_to_objects(returned)
         return returned_as_arr_of_objects
     end
 
@@ -67,6 +61,10 @@ class Ticket
         values = [id]
         returned_ticket = SqlRunner.run(sql, values)[0]
         return Ticket.new(returned_ticket)
+    end
+
+    def self.map_to_objects(array)
+        return array.map { |hash| Ticket.new(hash) }
     end
 
 end

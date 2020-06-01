@@ -37,7 +37,8 @@ class Screening
             WHERE tickets.screening_id = $1;"
         values = [@id]
         returned_users = SqlRunner.run(sql, values)
-        user_objects_arr = returned_users.map{ |user_hash| User.new(user_hash) }
+        user_objects_arr = User.map_to_objects(returned_users)
+        return user_objects_arr
     end
 
     def film()
@@ -54,7 +55,8 @@ class Screening
             WHERE tickets.screening_id = $1;"
         values = [@id]
         returned_tickets = SqlRunner.run(sql, values)
-        ticket_objects_arr = returned_tickets.map{ |ticket_hash| Ticket.new(ticket_hash) }
+        ticket_objects_arr = Ticket.map_to_objects(returned_tickets)
+        return ticket_objects_arr
     end
 
     def tickets_sold()
@@ -69,7 +71,7 @@ class Screening
     def self.all()
         sql = "SELECT * FROM screenings;"
         returned = SqlRunner.run(sql)
-        returned_as_arr_of_objects = returned.map{ |screening_hash| Screening.new(screening_hash) }
+        returned_as_arr_of_objects = Screening.map_to_objects(returned)
         return returned_as_arr_of_objects
     end
 
@@ -80,5 +82,7 @@ class Screening
         return Screening.new(returned_screening)
     end
 
-   
+    def self.map_to_objects(array)
+        return array.map { |hash| Screening.new(hash) }
+    end
 end

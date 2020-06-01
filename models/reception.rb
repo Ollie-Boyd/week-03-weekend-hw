@@ -48,7 +48,7 @@ class Reception
     end
 
     def print_screenings_to_console()
-        sql = "SELECT films.title, screenings.time, films.price, screenings.capacity-count(tickets.screening_id) AS tickets_remaining FROM screenings
+        sql = "SELECT films.title, screenings.time, films.price, screenings.capacity - count(tickets.screening_id) AS tickets_remaining FROM screenings
         LEFT JOIN tickets ON (tickets.screening_id = screenings.id)
         INNER JOIN films ON films.id = screenings.film_id
         GROUP BY
@@ -59,14 +59,14 @@ class Reception
         ; 
         "
         returned_listings = SqlRunner.run(sql)
-        line_width = 100
+        line_width = 70
+        
         puts ('Title'.ljust(line_width/4) + 'Time'.ljust(line_width/4) + 'Price'.ljust(line_width/4) + 'Tickets remaining'.rjust(line_width/4))
         
         returned_listings.each do |screening|
             puts "-"*line_width
             puts (screening['title'].ljust(line_width/4) + screening['time'].ljust(line_width/4) + screening['price'].ljust(line_width/4) + screening['tickets_remaining'].rjust(line_width/4))
         end
-
     end
 
 

@@ -40,8 +40,8 @@ class User
             WHERE tickets.user_id = $1;"
         values = [@id]
         tickets_arr = SqlRunner.run(sql, values)
-        ticket_objects_arr = tickets_arr.map{ |ticket_hash| Ticket.new(ticket_hash)}
-
+        ticket_objects_arr = Ticket.map_to_objects(tickets_arr)
+        return ticket_objects_arr
     end
 
     def screenings()
@@ -51,7 +51,8 @@ class User
             WHERE tickets.user_id = $1;"
         values = [@id]
         screenings_arr = SqlRunner.run(sql, values)
-        screening_objects_arr = screenings_arr.map{ |screening_hash| Screening.new(screening_hash)}
+        screening_objects_arr = Screening.map_to_objects(screenings_arr)
+        return screening_objects_arr
     end
 
     def films()
@@ -63,7 +64,8 @@ class User
         "
         values = [@id]
         films_arr = SqlRunner.run(sql, values)
-        return film_objects_arr = films_arr.map{ |film_hash| Film.new(film_hash)}
+        film_objects_arr = Film.map_to_objects(films_arr)
+        return film_objects_arr 
     end
 
     def number_of_tickets_bought()
@@ -83,7 +85,7 @@ class User
     def self.all()
         sql = 'SELECT * FROM users;'
         returned = SqlRunner.run(sql)
-        returned_as_arr_of_objects = returned.map{ |user_hash| User.new(user_hash) }
+        returned_as_arr_of_objects = User.map_to_objects(returned)
         return returned_as_arr_of_objects
     end
 
@@ -94,5 +96,7 @@ class User
         return User.new(returned_user)
     end
 
-    
+    def self.map_to_objects(arr)
+        return arr.map { |hash| User.new(hash)}
+    end
 end
