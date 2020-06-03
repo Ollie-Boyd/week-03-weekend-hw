@@ -17,20 +17,20 @@ class Reception
         @users = User.all()
         @till_balance = till_balance
     end
-    #tested
+
     def check_screening_has_available_capacity(screening)
         capacity = screening.capacity()
         sold_tickets = screening.tickets.count
         remaining_seats = capacity - sold_tickets
-        return true if remaining_seats>=1
+        return remaining_seats>=1  #redundant 'true'
     end
     
     def check_customer_can_afford(screening, wallet_balance)
-        return true if screening.film.price()<=wallet_balance
+        return screening.film.price()<=wallet_balance #redundant 'true'
     end
 
     def check_capacity_and_affordability(screening, wallet_balance)
-        return true if check_customer_can_afford(screening, wallet_balance) && check_screening_has_available_capacity(screening)
+        return check_customer_can_afford(screening, wallet_balance) && check_screening_has_available_capacity(screening) #redundant 'true'
     end
 
     def increase_till_balance(amount)
@@ -67,6 +67,7 @@ class Reception
             puts "-"*line_width
             puts (screening['title'].ljust(line_width/4) + screening['time'].ljust(line_width/4) + screening['price'].ljust(line_width/4) + screening['tickets_remaining'].rjust(line_width/4))
         end
+        puts "-"*line_width
     end
 
 
